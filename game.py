@@ -3,6 +3,7 @@ import random
 import math
 from abc import ABC, abstractmethod
 from config import *
+import sprites as spr
 
 class GameObject(ABC):
     def __init__(self, x, y, color):
@@ -77,38 +78,8 @@ class Enemy(GameObject):
             self._is_slowed = False
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            self._color,
-            (self._x, self._y, self._size, self._size),
-            border_radius=10
-        )
-
-        pygame.draw.rect(
-            screen,
-            RED,
-            (self._x, self._y - 10, self._size, 5)
-        )
-
-        pygame.draw.rect(
-            screen,
-            GREEN,
-            (
-                self._x,
-                self._y - 10,
-                self._size * (self._health / self._max_health),
-                5
-            )
-        )
-
-        if self._is_slowed:
-            pygame.draw.rect(
-                screen,
-                (150, 200, 255),
-                (self._x, self._y, self._size, self._size),
-                border_radius=10,
-                width=2
-            )
+        # Fallback generik — subclass override dengan sprite spesifik
+        spr._draw_enemy_sprite(screen, self, '', self._color)
 
     def get_rect(self):
         return pygame.Rect(
@@ -148,50 +119,7 @@ class ShieldEnemy(Enemy):
             self._health = 0
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            self._color,
-            (self._x, self._y, self._size, self._size),
-            border_radius=10
-        )
-
-        if self._shield_hp > 0:
-            pygame.draw.circle(
-                screen,
-                CYAN,
-                (int(self._x + self._size // 2), int(self._y + self._size // 2)),
-                self._size // 2 + 5,
-                3
-            )
-
-            shield_text = tiny_font.render(f"S{self._shield_hp}", True, CYAN)
-            screen.blit(shield_text, (self._x + 5, self._y + self._size - 15))
-
-        pygame.draw.rect(
-            screen,
-            RED,
-            (self._x, self._y - 10, self._size, 5)
-        )
-
-        pygame.draw.rect(
-            screen,
-            GREEN,
-            (
-                self._x,
-                self._y - 10,
-                self._size * (self._health / self._max_health),
-                5
-            )
-        )
-
-        if self._is_slowed:
-            pygame.draw.rect(
-                screen,
-                (150, 200, 255),
-                (self._x, self._y, self._size, self._size),
-                border_radius=10,
-                width=2
-            )
+        spr.draw_shield_enemy(screen, self)
 
     def get_reward(self):
         return 30
@@ -215,49 +143,7 @@ class HealingEnemy(Enemy):
         self._heal_cooldown -= 1
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            self._color,
-            (self._x, self._y, self._size, self._size),
-            border_radius=10
-        )
-
-        pygame.draw.circle(
-            screen,
-            (255, 100, 150),
-            (int(self._x + self._size // 2), int(self._y + self._size // 2)),
-            self._heal_radius,
-            1
-        )
-
-        heal_text = tiny_font.render("HEAL", True, PINK)
-        screen.blit(heal_text, (self._x + 3, self._y + self._size - 15))
-
-        pygame.draw.rect(
-            screen,
-            RED,
-            (self._x, self._y - 10, self._size, 5)
-        )
-
-        pygame.draw.rect(
-            screen,
-            GREEN,
-            (
-                self._x,
-                self._y - 10,
-                self._size * (self._health / self._max_health),
-                5
-            )
-        )
-
-        if self._is_slowed:
-            pygame.draw.rect(
-                screen,
-                (150, 200, 255),
-                (self._x, self._y, self._size, self._size),
-                border_radius=10,
-                width=2
-            )
+        spr.draw_healer_enemy(screen, self)
 
     def heal_nearby(self, enemies):
         if self._heal_cooldown <= 0:
@@ -292,42 +178,7 @@ class SplitEnemy(Enemy):
         self._is_child = is_child
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            self._color,
-            (self._x, self._y, self._size, self._size),
-            border_radius=10
-        )
-
-        if not self._is_child:
-            split_text = tiny_font.render("SPLIT", True, ORANGE)
-            screen.blit(split_text, (self._x + 2, self._y + self._size - 15))
-
-        pygame.draw.rect(
-            screen,
-            RED,
-            (self._x, self._y - 10, self._size, 5)
-        )
-
-        pygame.draw.rect(
-            screen,
-            GREEN,
-            (
-                self._x,
-                self._y - 10,
-                self._size * (self._health / self._max_health),
-                5
-            )
-        )
-
-        if self._is_slowed:
-            pygame.draw.rect(
-                screen,
-                (150, 200, 255),
-                (self._x, self._y, self._size, self._size),
-                border_radius=10,
-                width=2
-            )
+        spr.draw_split_enemy(screen, self)
 
     def create_splits(self):
         split1 = SplitEnemy(self._x - 20, self._y - 20, is_child=True)
@@ -345,6 +196,9 @@ class FastEnemy(Enemy):
         super().__init__(x, y, 3.5, 2, RED, difficulty_multiplier)
         self._size = 40
 
+    def draw(self, screen):
+        spr.draw_fast_enemy(screen, self)
+
     def get_reward(self):
         return 10
 
@@ -356,6 +210,9 @@ class TankEnemy(Enemy):
         super().__init__(x, y, 1.5, 5, PURPLE, difficulty_multiplier)
         self._size = 55
 
+    def draw(self, screen):
+        spr.draw_tank_enemy(screen, self)
+
     def get_reward(self):
         return 15
 
@@ -366,6 +223,9 @@ class SlowEnemy(Enemy):
             difficulty_multiplier = {'enemy_speed_multiplier': 1.0, 'enemy_health_multiplier': 1.0}
         super().__init__(x, y, 0.8, 8, ORANGE, difficulty_multiplier)
         self._size = 50
+
+    def draw(self, screen):
+        spr.draw_slow_enemy(screen, self)
 
     def get_reward(self):
         return 20
@@ -384,60 +244,7 @@ class FlyingEnemy(Enemy):
         self._hover_offset = math.sin(pygame.time.get_ticks() * 0.005) * 10
 
     def draw(self, screen):
-        actual_y = self._y + self._hover_offset
-
-        pygame.draw.circle(
-            screen,
-            self._color,
-            (int(self._x + self._size // 2), int(actual_y + self._size // 2)),
-            self._size // 2
-        )
-
-        wing_offset = 5
-        pygame.draw.polygon(
-            screen,
-            self._color,
-            [
-                (int(self._x + wing_offset), int(actual_y + wing_offset)),
-                (int(self._x + wing_offset), int(actual_y + self._size - wing_offset)),
-                (int(self._x + self._size // 4), int(actual_y + self._size // 2))
-            ]
-        )
-        pygame.draw.polygon(
-            screen,
-            self._color,
-            [
-                (int(self._x + self._size - wing_offset), int(actual_y + wing_offset)),
-                (int(self._x + self._size - wing_offset), int(actual_y + self._size - wing_offset)),
-                (int(self._x + self._size * 3 // 4), int(actual_y + self._size // 2))
-            ]
-        )
-
-        pygame.draw.rect(
-            screen,
-            RED,
-            (self._x, actual_y - 10, self._size, 5)
-        )
-
-        pygame.draw.rect(
-            screen,
-            GREEN,
-            (
-                self._x,
-                actual_y - 10,
-                self._size * (self._health / self._max_health),
-                5
-            )
-        )
-
-        if self._is_slowed:
-            pygame.draw.circle(
-                screen,
-                (150, 200, 255),
-                (int(self._x + self._size // 2), int(actual_y + self._size // 2)),
-                self._size // 2 + 2,
-                width=2
-            )
+        spr.draw_flying_enemy(screen, self)
 
     def get_reward(self):
         return 25
@@ -454,53 +261,7 @@ class BossEnemy(Enemy):
         self._x += self._speed
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            YELLOW,
-            (self._x, self._y, self._size, self._size),
-            border_radius=15,
-            width=3
-        )
-
-        pygame.draw.rect(
-            screen,
-            self._color,
-            (self._x, self._y, self._size, self._size),
-            border_radius=15
-        )
-
-        boss_text = tiny_font.render("BOSS", True, YELLOW)
-        screen.blit(boss_text, (self._x + self._size // 2 - 15, self._y + self._size // 2 - 10))
-
-        pygame.draw.rect(
-            screen,
-            RED,
-            (self._x, self._y - 15, self._size, 8)
-        )
-
-        pygame.draw.rect(
-            screen,
-            GREEN,
-            (
-                self._x,
-                self._y - 15,
-                self._size * (self._health / self._max_health),
-                8
-            )
-        )
-
-        health_percent = int((self._health / self._max_health) * 100)
-        health_text = tiny_font.render(f"{health_percent}%", True, WHITE)
-        screen.blit(health_text, (self._x + self._size - 25, self._y - 14))
-
-        if self._is_slowed:
-            pygame.draw.rect(
-                screen,
-                (150, 200, 255),
-                (self._x, self._y, self._size, self._size),
-                border_radius=15,
-                width=3
-            )
+        spr.draw_boss_enemy(screen, self)
 
     def get_reward(self):
         return 100
@@ -528,12 +289,7 @@ class Bullet(GameObject):
                 self._y += dy / distance * self._speed
 
     def draw(self, screen):
-        pygame.draw.circle(
-            screen,
-            self._color,
-            (int(self._x), int(self._y)),
-            self._radius
-        )
+        spr.draw_bullet_default(screen, self)
 
     def hit_target(self):
         if self.target:
@@ -645,50 +401,9 @@ class Tower(GameObject):
         pass
 
     def draw(self, screen):
-        pygame.draw.circle(
-            screen,
-            self._color,
-            (self._x, self._y),
-            25
-        )
-
-        pygame.draw.circle(
-            screen,
-            WHITE,
-            (self._x, self._y),
-            self._range,
-            1
-        )
-
-        if self._is_selected:
-            pygame.draw.circle(
-                screen,
-                YELLOW,
-                (self._x, self._y),
-                30,
-                3
-            )
-
-        level_text = small_font.render(
-            str(self._level),
-            True,
-            WHITE
-        )
-
-        screen.blit(level_text, (self._x - 5, self._y - 10))
-
-        mode_indicator = {
-            TargetMode.FIRST: "F",
-            TargetMode.LAST: "L",
-            TargetMode.STRONGEST: "S",
-            TargetMode.CLOSEST: "C"
-        }
-        mode_text = tiny_font.render(
-            mode_indicator[self._target_mode],
-            True,
-            CYAN
-        )
-        screen.blit(mode_text, (self._x + 15, self._y - 5))
+        # Subclass override dengan sprite spesifik
+        spr._draw_tower_base(screen, self, self._color)
+        spr._draw_tower_common(screen, self, None)
 
     def get_target(self, enemies):
         if not enemies:
@@ -772,6 +487,9 @@ class IceTower(Tower):
     def get_cost(self):
         return 40
 
+    def draw(self, screen):
+        spr.draw_ice_tower(screen, self)
+
     def shoot(self, enemies):
         bullets = []
 
@@ -782,14 +500,9 @@ class IceTower(Tower):
         target = self.get_target(enemies)
 
         if target:
-            bullets.append(
-                Bullet(
-                    self._x,
-                    self._y,
-                    target,
-                    self._damage
-                )
-            )
+            b = Bullet(self._x, self._y, target, self._damage)
+            b.draw = lambda s: spr.draw_bullet_ice(s, b)
+            bullets.append(b)
             self._cooldown = 40
 
         return bullets
@@ -803,6 +516,9 @@ class FireTower(Tower):
     def get_cost(self):
         return 60
 
+    def draw(self, screen):
+        spr.draw_fire_tower(screen, self)
+
     def shoot(self, enemies):
         bullets = []
 
@@ -813,48 +529,24 @@ class FireTower(Tower):
         target1 = self.get_target(enemies)
 
         if target1:
-            bullets.append(
-                Bullet(
-                    self._x,
-                    self._y,
-                    target1,
-                    self._damage
-                )
-            )
+            b1 = Bullet(self._x, self._y, target1, self._damage)
+            b1.draw = lambda s: spr.draw_bullet_fire(s, b1)
+            bullets.append(b1)
 
             in_range_enemies = []
             for enemy in enemies:
                 if enemy is not target1:
-                    distance = math.hypot(
-                        self._x - enemy._x,
-                        self._y - enemy._y
-                    )
+                    distance = math.hypot(self._x - enemy._x, self._y - enemy._y)
                     if distance <= self._range:
                         in_range_enemies.append(enemy)
 
             if in_range_enemies:
-                target2 = min(in_range_enemies, key=lambda e: math.hypot(
-                    self._x - e._x,
-                    self._y - e._y
-                ))
-
-                bullets.append(
-                    Bullet(
-                        self._x,
-                        self._y,
-                        target2,
-                        self._damage
-                    )
-                )
+                target2 = min(in_range_enemies, key=lambda e: math.hypot(self._x - e._x, self._y - e._y))
+                b2 = Bullet(self._x, self._y, target2, self._damage)
             else:
-                bullets.append(
-                    Bullet(
-                        self._x,
-                        self._y,
-                        target1,
-                        self._damage
-                    )
-                )
+                b2 = Bullet(self._x, self._y, target1, self._damage)
+            b2.draw = lambda s: spr.draw_bullet_fire(s, b2)
+            bullets.append(b2)
 
             self._cooldown = 35
 
@@ -868,6 +560,9 @@ class LightningTower(Tower):
 
     def get_cost(self):
         return 80
+
+    def draw(self, screen):
+        spr.draw_lightning_tower(screen, self)
 
     def shoot(self, enemies):
         bullets = []
@@ -907,6 +602,9 @@ class LaserTower(Tower):
 
     def get_cost(self):
         return 100
+
+    def draw(self, screen):
+        spr.draw_laser_tower(screen, self)
 
     def shoot(self, enemies):
         bullets = []
@@ -1090,6 +788,11 @@ class Game:
         self.base_health = self.difficulty_config['base_health']
         self.wave_bonus = 0
 
+        # Tracking statistik untuk GameOverScreen
+        self.enemies_killed     = 0
+        self.total_money_earned = self.difficulty_config['starting_money']
+        self.towers_placed      = 0
+
         self.selected_tower = None
         self.sell_feedback_timer = 0
         self.sell_feedback_text = ""
@@ -1101,6 +804,13 @@ class Game:
         self.is_paused = False
         self.turbo_mode = False
         self.turbo_toggle_timer = 0
+
+        # Load gameplay background
+        try:
+            self._bg = pygame.image.load('assets/images/gameplay_bg.png').convert()
+            self._bg = pygame.transform.scale(self._bg, (WIDTH, HEIGHT))
+        except Exception:
+            self._bg = None
 
     def start_first_wave(self):
         self.wave_manager.start_next_wave()
@@ -1153,7 +863,11 @@ class Game:
 
         for tower in self.towers:
             new_bullets = tower.shoot(self.enemies)
-            self.bullets.extend(new_bullets)
+            for b in new_bullets:
+                if isinstance(b, (LightningBolt, LaserBeam)):
+                    self.special_bullets.append(b)
+                else:
+                    self.bullets.append(b)
 
         for bullet in self.bullets[:]:
             bullet.move()
@@ -1165,6 +879,8 @@ class Game:
                     reward = bullet.target.get_reward()
                     self.score += reward
                     self.money += reward
+                    self.enemies_killed += 1
+                    self.total_money_earned += reward
 
                     if isinstance(bullet.target, SplitEnemy) and not bullet.target._is_child:
                         splits = bullet.target.create_splits()
@@ -1186,6 +902,8 @@ class Game:
                         reward = target.get_reward()
                         self.score += reward
                         self.money += reward
+                        self.enemies_killed += 1
+                        self.total_money_earned += reward
 
                         if isinstance(target, SplitEnemy) and not target._is_child:
                             splits = target.create_splits()
@@ -1202,6 +920,8 @@ class Game:
                         reward = special.target.get_reward()
                         self.score += reward
                         self.money += reward
+                        self.enemies_killed += 1
+                        self.total_money_earned += reward
 
                         if isinstance(special.target, SplitEnemy) and not special.target._is_child:
                             splits = special.target.create_splits()
@@ -1241,13 +961,12 @@ class Game:
             self.game_state = GameState.PLAYING
 
     def draw_map(self):
-        screen.fill(BLACK)
-
-        pygame.draw.rect(
-            screen,
-            (50, 50, 50),
-            (0, 90, WIDTH, 430)
-        )
+        if self._bg:
+            screen.blit(self._bg, (0, 0))
+        else:
+            screen.fill(BLACK)
+            pygame.draw.rect(screen, (58, 92, 30), (0, 90, WIDTH, 430))
+            pygame.draw.rect(screen, (107, 90, 58), (0, 140, WIDTH, 340))
 
     def draw_ui(self):
         score_text = font.render(
@@ -1395,9 +1114,11 @@ class Game:
         for special in self.special_bullets:
             special.draw(screen)
 
-        self.draw_ui()
-
-        pygame.display.update()
+        # HUD dan display.update() dihandle oleh GameRunner di main.py
+        # Panggil draw_ui() hanya jika dijalankan standalone (tanpa GameRunner)
+        if not hasattr(self, '_managed_by_runner'):
+            self.draw_ui()
+            pygame.display.update()
 
     def game_over(self):
         screen.fill(BLACK)
@@ -1450,21 +1171,25 @@ class Game:
             self.towers.append(IceTower(x, y))
             self.money -= 40
             self.selected_tower = None
+            self.towers_placed += 1
 
         elif tower_type == "fire" and self.money >= 60:
             self.towers.append(FireTower(x, y))
             self.money -= 60
             self.selected_tower = None
+            self.towers_placed += 1
 
         elif tower_type == "lightning" and self.money >= 80:
             self.towers.append(LightningTower(x, y))
             self.money -= 80
             self.selected_tower = None
+            self.towers_placed += 1
 
         elif tower_type == "laser" and self.money >= 100:
             self.towers.append(LaserTower(x, y))
             self.money -= 100
             self.selected_tower = None
+            self.towers_placed += 1
 
     def upgrade_tower(self):
         if self.selected_tower and self.money >= 30:
