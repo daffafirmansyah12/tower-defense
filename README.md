@@ -76,6 +76,7 @@ ESC - Kembali ke menu atau pause
 Penjelasan Implementasi OOP
 
 Inheritance 
+
 Inheritance diimplementasikan melalui class hierarchy yang jelas dan terstruktur.
 GameObject adalah abstract base class yang mendefinisikan interface dasar untuk semua object di dalam game. Setiap object yang bisa di-draw dan di-move harus mewarisi dari class ini.
 Tower adalah abstract class yang mewarisi dari GameObject dan mendefinisikan interface untuk semua jenis tower: IceTower, FireTower, LightningTower, LaserTower.
@@ -93,7 +94,7 @@ Encapsulation
 Encapsulation dilakukan dengan menggunakan private attributes seperti _x, _y, _health, _speed yang tidak bisa diakses langsung dari luar class.
 Data hanya bisa diakses dan dimodifikasi melalui property methods dan getter/setter, sehingga melindungi integritas data dari modifikasi yang tidak diinginkan.
 
-Abstraction (Abstraksi)
+Abstraction 
 
 Abstraction diterapkan melalui abstract classes yang mendefinisikan interface tanpa implementasi detail.
 User hanya perlu tahu method publik yang tersedia seperti draw(), move(), shoot() tanpa perlu tahu detail implementasinya di setiap subclass.
@@ -101,25 +102,30 @@ Ini membuat code lebih clean, maintainable, dan mudah dipahami.
 
 Screenshot Tampilan Program
 
+Screenshot Tampilan Program
+
 Main Menu Screen
-Menampilkan tombol-tombol untuk New Game, Load Game, Settings, dan Quit. Background berwarna gelap dengan text yang jelas dan mudah dibaca.
+![Main Menu](assets/screenshot/main_menu.png)
+Menampilkan tombol New Game, Load Game, Settings, dan Quit.
 
 Difficulty Selection Screen
-Setelah memilih New Game, pemain diminta memilih difficulty antara Easy Mode, Normal Mode, atau Hard Mode dengan penjelasan singkat untuk setiap level.
+![Difficulty Selection](assets/screenshot/difficulty_selection.png)
+Pemilihan Easy, Normal, atau Hard mode sebelum bermain.
 
 Gameplay Screen
-Screen utama saat bermain yang menampilkan peta dengan tower yang sudah ditempatkan dan musuh yang sedang berjalan. HUD top bar menampilkan score, money, health, wave, dan difficulty.
+![Gameplay](assets/screenshot/gameplay.png)
+Peta dengan tower, musuh, dan HUD informasi game.
 
 Pause Menu Screen
-Menu yang muncul saat pemain menekan SPACE dengan opsi Resume, Settings, Leaderboard, dan Main Menu.
+![Pause Menu](assets/screenshot/pause_menu.png)
+Menu dengan opsi Resume, Settings, Leaderboard, dan Main Menu.
 
 Game Over Screen
-Screen yang muncul saat health base habis, menampilkan final score, wave yang dicapai, playtime total, dan opsi Retry atau Back to Menu.
+![Game Over](assets/screenshot/game_over.png)
+Menampilkan final score, wave reached, playtime, dan opsi Retry/Menu.
 
 Semua screen dirancang dengan UI yang clean, intuitif, dan mudah dipahami oleh pemain.
 
 Repository GitHub: https://github.com/daffafirmansyah12/tower-defense
 
-Version: 1.0
 
-Last Updated: June 2026
