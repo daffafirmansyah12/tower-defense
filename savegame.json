@@ -1,0 +1,41 @@
+{
+  "saved_at": "2026-06-04 11:35:16",
+  "difficulty": "NORMAL",
+  "wave": 3,
+  "score": 595,
+  "money": 185,
+  "base_health": 10,
+  "enemies_killed": 46,
+  "total_money_earned": 645,
+  "towers_placed": 4,
+  "towers": [
+    {
+      "type": "fire",
+      "x": 481,
+      "y": 293,
+      "level": 3,
+      "target_mode": "FIRST"
+    },
+    {
+      "type": "lightning",
+      "x": 756,
+      "y": 435,
+      "level": 3,
+      "target_mode": "FIRST"
+    },
+    {
+      "type": "lightning",
+      "x": 794,
+      "y": 217,
+      "level": 3,
+      "target_mode": "FIRST"
+    },
+    {
+      "type": "laser",
+      "x": 249,
+      "y": 343,
+      "level": 3,
+      "target_mode": "FIRST"
+    }
+  ]
+}
