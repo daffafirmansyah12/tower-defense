@@ -102,8 +102,6 @@ Ini membuat code lebih clean, maintainable, dan mudah dipahami.
 
 Screenshot Tampilan Program
 
-Screenshot Tampilan Program
-
 Main Menu Screen
 ![Main Menu](assets/screenshot/main_menu.png)
 Menampilkan tombol New Game, Load Game, Settings, dan Quit.
