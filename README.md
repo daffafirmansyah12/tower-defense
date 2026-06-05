@@ -1,12 +1,14 @@
 README.md
 
 Deskripsi Project
+
 Game Tower Defense adalah sebuah game strategi yang seru dan challenging. Konsepnya sederhana: kamu harus menempatkan menara pertahanan di sebuah peta untuk mengalahkan musuh-musuh yang terus berdatangan dalam gelombang demi gelombang.
 Setiap musuh yang berhasil dikalahkan akan memberikan uang kepada pemain. Uang tersebut bisa digunakan untuk membeli tower baru atau upgrade tower yang sudah ada agar lebih kuat. Tujuan permainan adalah bertahan selama mungkin dan mengumpulkan score setinggi mungkin sebelum health base pemain habis.
 Game ini dibuat menggunakan Python 3.13 dan Pygame 2.6 sebagai library utama. Project ini merupakan tugas akhir dari mata kuliah Object-Oriented Programming yang menerapkan konsep-konsep seperti inheritance, polymorphism, encapsulation, dan abstraction.
 Dengan total 4790 baris kode dan 51 asset grafis, game ini merupakan sebuah project yang relatif besar dan kompleks. Game sudah dilengkapi dengan sistem audio, sistem save dan load, multiple menu screen, dan gameplay yang balance dan fun.
 
 Anggota Kelompok
+
 Project Tower Defense ini dikerjakan oleh sebuah tim yang terdiri dari beberapa anggota dengan pembagian tugas yang jelas:
 Muhammad Daffa Firmansyah - Mengerjakan Gameplay dan Project Structure. Bertanggung jawab untuk membuat mekanik game utama seperti sistem tower, sistem enemy, sistem wave, dan mengorganisir struktur file project agar rapi dan mudah dimaintain.
 Achmad Zidan Firmansyah - Mengerjakan UI dan Menu System. Membuat semua tampilan menu seperti main menu, difficulty selection, pause menu, settings menu, dan game over screen. Juga membuat in-game HUD yang menampilkan informasi penting.
