@@ -11,13 +11,13 @@ Anggota Kelompok
 
 Project Tower Defense ini dikerjakan oleh sebuah tim yang terdiri dari beberapa anggota dengan pembagian tugas yang jelas:
 
-Muhammad Daffa Firmansyah - Mengerjakan Gameplay dan Project Structure. Bertanggung jawab untuk membuat mekanik game utama seperti sistem tower, sistem enemy, sistem wave, dan mengorganisir struktur file project agar rapi dan mudah dimaintain.
+Muhammad Daffa Firmansyah (25051204219) - Mengerjakan Gameplay dan Project Structure. Bertanggung jawab untuk membuat mekanik game utama seperti sistem tower, sistem enemy, sistem wave, dan mengorganisir struktur file project agar rapi dan mudah dimaintain.
 
-Achmad Zidan Firmansyah - Mengerjakan UI dan Menu System. Membuat semua tampilan menu seperti main menu, difficulty selection, pause menu, settings menu, dan game over screen. Juga membuat in-game HUD yang menampilkan informasi penting.
+Achmad Zidan Firmansyah (25051204142) - Mengerjakan UI dan Menu System. Membuat semua tampilan menu seperti main menu, difficulty selection, pause menu, settings menu, dan game over screen. Juga membuat in-game HUD yang menampilkan informasi penting.
 
-M. Fahrizal Haqq - Mengerjakan Audio dan Sound Management. Menangani musik background untuk menu dan gameplay, membuat sound effects untuk berbagai action dalam game seperti tower shooting dan enemy death.
+M. Fahrizal Haqq (25051204099) - Mengerjakan Audio dan Sound Management. Menangani musik background untuk menu dan gameplay, membuat sound effects untuk berbagai action dalam game seperti tower shooting dan enemy death.
 
-Muhammad Neo Enha Finardi - Mengerjakan Visual Effects dan Sprite System. Membuat semua grafis asset seperti sprite tower, sprite musuh, sprite bullet, UI elements, dan background.
+Muhammad Neo Enha Finardi (25051204143) - Mengerjakan Visual Effects dan Sprite System. Membuat semua grafis asset seperti sprite tower, sprite musuh, sprite bullet, UI elements, dan background.
 
 Fitur Utama
 Tower System
